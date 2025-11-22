@@ -47,7 +47,26 @@
         </h3>
 
         {% for match in matches %}
-        {% endif %}
+        <div class="glass p-6 rounded-xl hover:bg-slate-800/40 transition-colors">
+            <div class="flex flex-col md:flex-row justify-between items-center gap-4">
+                <div class="flex items-center gap-4 flex-1 justify-end">
+                    <span class="font-bold text-lg">{{ match.team1.name }}</span>
+                </div>
+
+                <div class="px-4 py-1 rounded bg-slate-800 text-xs font-bold text-slate-400">VS</div>
+
+                <div class="flex items-center gap-4 flex-1">
+                    <span class="font-bold text-lg">{{ match.team2.name }}</span>
+                </div>
+
+                <div class="md:ml-8 text-right min-w-[100px]">
+                    <div class="text-brand-primary font-bold local-time"
+                        data-timestamp="{{ match.scheduled_time.timestamp() * 1000 }}">
+                        --:--
+                    </div>
+                </div>
+            </div>
+        </div>
         {% else %}
         <div class="text-center py-12 text-slate-500 bg-slate-900/50 rounded-xl border border-slate-800 border-dashed">
             No upcoming matches scheduled.
