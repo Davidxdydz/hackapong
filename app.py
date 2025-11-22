@@ -123,6 +123,10 @@ def get_elo_history(team_id):
     history = [{'date': 'Start', 'elo': 1200}]
     
     for match in matches:
+        # Skip draws
+        if match.score1 == match.score2:
+            continue
+
         # Calculate Elo change for this match
         ra = team_elos.get(match.team1_id, 1200)
         rb = team_elos.get(match.team2_id, 1200)
@@ -389,6 +393,10 @@ def check_score_submission(match_id):
             
 
 def update_elo(team1, team2, score1, score2):
+    # If scores are equal, do not change Elo
+    if score1 == score2:
+        return
+
     # Simple Elo implementation
     # Winner gets points, loser loses points
     k = 32

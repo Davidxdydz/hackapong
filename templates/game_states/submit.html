@@ -17,21 +17,26 @@
         }
     </script>
 
-    <div class="flex justify-center gap-8 mb-8">
+    {% set t1 = match.team1 %}
+    {% set t2 = match.team2 %}
+
+    {% if t1.id < t2.id %} {% set left_team=t1 %} {% set left_input_id='score1' %} {% set right_team=t2 %} {% set
+        right_input_id='score2' %} {% else %} {% set left_team=t2 %} {% set left_input_id='score2' %} {% set
+        right_team=t1 %} {% set right_input_id='score1' %} {% endif %} <div class="flex justify-center gap-8 mb-8">
         <div class="w-32">
-            <label class="block text-xs uppercase mb-2 text-brand-primary font-bold">{{ team.name }}</label>
-            <input type="number" id="score1" min="0" max="10" placeholder="-"
+            <label class="block text-xs uppercase mb-2 text-brand-primary font-bold">{{ left_team.name }}</label>
+            <input type="number" id="{{ left_input_id }}" min="0" max="10" placeholder="-"
                 class="w-full bg-slate-900 border border-slate-700 rounded-lg p-3 text-center text-4xl font-bold focus:border-pink-500 outline-none transition-colors">
         </div>
         <div class="w-32">
-            <label class="block text-xs uppercase mb-2 text-brand-accent font-bold">{{ opponent.name }}</label>
-            <input type="number" id="score2" min="0" max="10" placeholder="-"
+            <label class="block text-xs uppercase mb-2 text-brand-accent font-bold">{{ right_team.name }}</label>
+            <input type="number" id="{{ right_input_id }}" min="0" max="10" placeholder="-"
                 class="w-full bg-slate-900 border border-slate-700 rounded-lg p-3 text-center text-4xl font-bold focus:border-violet-500 outline-none transition-colors">
         </div>
-    </div>
+</div>
 
-    <button onclick="submitScore()"
-        class="w-full py-4 rounded-xl bg-gradient-to-r from-green-500 to-emerald-600 font-bold text-lg shadow-lg hover:scale-105 transition transform">
-        Submit Score
-    </button>
+<button onclick="submitScore()"
+    class="w-full py-4 rounded-xl bg-gradient-to-r from-green-500 to-emerald-600 font-bold text-lg shadow-lg hover:scale-105 transition transform">
+    Submit Score
+</button>
 </div>
