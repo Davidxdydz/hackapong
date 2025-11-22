@@ -6,7 +6,7 @@
         <h1 class="text-3xl md:text-5xl font-bold text-white mb-2">{{ team.name }}</h1>
         <p class="text-slate-400 text-sm uppercase tracking-widest mb-8">Team Profile</p>
 
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-2xl mx-auto">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-6 max-w-3xl mx-auto">
             <div class="p-4 rounded-xl bg-slate-900/50 border border-slate-700">
                 <div class="text-slate-500 text-xs uppercase font-bold mb-1">Elo Rating</div>
                 <div class="font-mono text-brand-accent text-3xl font-bold">{{ team.elo }}</div>
@@ -14,6 +14,10 @@
             <div class="p-4 rounded-xl bg-slate-900/50 border border-slate-700">
                 <div class="text-slate-500 text-xs uppercase font-bold mb-1">Wins</div>
                 <div class="text-green-400 text-3xl font-bold">{{ team.wins }}</div>
+            </div>
+            <div class="p-4 rounded-xl bg-slate-900/50 border border-slate-700">
+                <div class="text-slate-500 text-xs uppercase font-bold mb-1">Draws</div>
+                <div class="text-slate-400 text-3xl font-bold">{{ team.draws }}</div>
             </div>
             <div class="p-4 rounded-xl bg-slate-900/50 border border-slate-700">
                 <div class="text-slate-500 text-xs uppercase font-bold mb-1">Losses</div>
@@ -36,9 +40,15 @@
         <div
             class="card p-4 rounded-lg flex flex-col md:flex-row justify-between items-center hover:bg-slate-800 transition-colors">
             <div
-                class="flex-1 text-center md:text-right font-bold text-lg {{ 'text-green-400' if (match.score1 > match.score2 and match.team1_id == team.id) or (match.score2 > match.score1 and match.team2_id == team.id) else 'text-red-400' }}">
-                {{ 'WIN' if (match.score1 > match.score2 and match.team1_id == team.id) or (match.score2 > match.score1
-                and match.team2_id == team.id) else 'LOSS' }}
+                class="flex-1 text-center md:text-right font-bold text-lg {{ 'text-green-400' if (match.score1 > match.score2 and match.team1_id == team.id) or (match.score2 > match.score1 and match.team2_id == team.id) else ('text-slate-400' if match.score1 == match.score2 else 'text-red-400') }}">
+                {% if match.score1 == match.score2 %}
+                DRAW
+                {% elif (match.score1 > match.score2 and match.team1_id == team.id) or (match.score2 > match.score1 and
+                match.team2_id == team.id) %}
+                WIN
+                {% else %}
+                LOSS
+                {% endif %}
             </div>
             <div
                 class="mx-6 my-2 md:my-0 font-mono text-xl font-bold text-white bg-slate-900 px-4 py-1 rounded border border-slate-700">

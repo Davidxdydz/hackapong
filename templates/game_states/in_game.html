@@ -10,7 +10,7 @@
         data-deadline="{{ (match.start_time.timestamp() * 1000 + 12 * 60 * 1000) | int }}">--:--</div>
 </div>
 
-<button onclick="if(confirm('Are you sure the game is done?')) socket.emit('game_done')"
+<button onclick="socket.emit('game_done')"
     class="w-full max-w-md mx-auto block py-6 rounded-xl bg-gradient-to-r from-pink-600 to-violet-600 font-bold text-2xl shadow-lg hover:scale-105 transition transform active:scale-95">
     DONE!
 </button>

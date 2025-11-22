@@ -10,6 +10,7 @@ class Team(db.Model):
     elo = db.Column(db.Integer, default=1200)
     wins = db.Column(db.Integer, default=0)
     losses = db.Column(db.Integer, default=0)
+    draws = db.Column(db.Integer, default=0)
     state = db.Column(db.String(20), default='NOT_ACTIVE') # NOT_ACTIVE, SEARCHING, MATCHED, CONFIRM_READY, READY, IN_GAME, DONE, SUBMIT, SUBMITTED
     current_match_id = db.Column(db.Integer, db.ForeignKey('match.id'), nullable=True)
 

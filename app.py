@@ -393,8 +393,10 @@ def check_score_submission(match_id):
             
 
 def update_elo(team1, team2, score1, score2):
-    # If scores are equal, do not change Elo
+    # If scores are equal, it's a draw - don't change Elo but track the draw
     if score1 == score2:
+        team1.draws += 1
+        team2.draws += 1
         return
 
     # Simple Elo implementation
