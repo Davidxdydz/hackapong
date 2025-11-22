@@ -123,14 +123,26 @@ def get_elo_history(team_id):
     history = [{'date': 'Start', 'elo': 1200}]
     
     for match in matches:
-        # Skip draws
-        if match.score1 == match.score2:
-            continue
-
-        # Calculate Elo change for this match
+        # Get current Elos for both teams
         ra = team_elos.get(match.team1_id, 1200)
         rb = team_elos.get(match.team2_id, 1200)
         
+        # Check if it's a draw
+        if match.score1 == match.score2:
+            # For draws, Elo doesn't change, but we still log it in history
+            if match.team1_id == team_id:
+                history.append({
+                    'date': match.end_time.strftime('%Y-%m-%d %H:%M'),
+                    'elo': int(ra)
+                })
+            elif match.team2_id == team_id:
+                history.append({
+                    'date': match.end_time.strftime('%Y-%m-%d %H:%M'),
+                    'elo': int(rb)
+                })
+            continue
+        
+        # Calculate Elo change for non-draw matches
         k = 30
         ea = 1 / (1 + 10 ** ((rb - ra) / 400))
         eb = 1 / (1 + 10 ** ((ra - rb) / 400))
@@ -365,8 +377,51 @@ def check_score_submission(match_id):
             team2.current_match_id = None
             db.session.commit()
 
-            emit('state_change', {'state': 'COMPLETED', 'match_id': match.id, 'result': 'WIN', 'score': f"{match.score1}-{match.score2}" if match.score1 > match.score2 else f"{match.score2}-{match.score1}"}, room=f"team_{team1.id if match.score1 > match.score2 else team2.id}")
-            emit('state_change', {'state': 'COMPLETED', 'match_id': match.id, 'result': 'LOSE', 'score': f"{match.score1}-{match.score2}" if match.score1 > match.score2 else f"{match.score2}-{match.score1}"}, room=f"team_{team2.id if match.score1 > match.score2 else team1.id}")
+
+            # Determine result for each team and notify both
+            if match.score1 == match.score2:
+                # Draw - both teams get DRAW result
+                emit('state_change', {
+                    'state': 'COMPLETED', 
+                    'match_id': match.id, 
+                    'result': 'DRAW', 
+                    'score': f"{match.score1}-{match.score2}"
+                }, room=f"team_{team1.id}")
+                emit('state_change', {
+                    'state': 'COMPLETED', 
+                    'match_id': match.id, 
+                    'result': 'DRAW', 
+                    'score': f"{match.score1}-{match.score2}"
+                }, room=f"team_{team2.id}")
+            elif match.score1 > match.score2:
+                # Team 1 wins
+                emit('state_change', {
+                    'state': 'COMPLETED', 
+                    'match_id': match.id, 
+                    'result': 'WIN', 
+                    'score': f"{match.score1}-{match.score2}"
+                }, room=f"team_{team1.id}")
+                emit('state_change', {
+                    'state': 'COMPLETED', 
+                    'match_id': match.id, 
+                    'result': 'LOSE', 
+                    'score': f"{match.score1}-{match.score2}"
+                }, room=f"team_{team2.id}")
+            else:
+                # Team 2 wins
+                emit('state_change', {
+                    'state': 'COMPLETED', 
+                    'match_id': match.id, 
+                    'result': 'WIN', 
+                    'score': f"{match.score1}-{match.score2}"
+                }, room=f"team_{team2.id}")
+                emit('state_change', {
+                    'state': 'COMPLETED', 
+                    'match_id': match.id, 
+                    'result': 'LOSE', 
+                    'score': f"{match.score1}-{match.score2}"
+                }, room=f"team_{team1.id}")
+
 
             # Clear pending scores for this match
             del app.pending_scores[team1_submitted_key]

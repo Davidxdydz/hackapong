@@ -25,6 +25,9 @@
         if (params.get('result') === 'WIN') {
             title.textContent = 'VICTORY!';
             emoji.textContent = '🏆';
+        } else if (params.get('result') === 'DRAW') {
+            title.textContent = 'DRAW';
+            emoji.textContent = '🤝';
         } else {
             title.textContent = 'DEFEAT';
             emoji.textContent = '💀';
