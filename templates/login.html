@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="max-w-md mx-auto mt-12 w-full">
+    <div class="card p-8 rounded-xl mb-8">
+        <h2 class="text-2xl font-bold mb-6 text-center text-white">Login to Hackapong</h2>
+        <form method="POST" action="{{ url_for('login') }}" class="space-y-5">
+            <div>
+                <label class="block text-sm font-medium text-slate-400 mb-1">Team Name</label>
+                <input type="text" name="username" required
+                    class="w-full p-3 rounded-lg bg-slate-900 border border-slate-700 text-white focus:outline-none focus:border-brand-primary focus:ring-1 focus:ring-brand-primary transition-all"
+                    placeholder="e.g. The Pong Champions">
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-slate-400 mb-1">Password</label>
+                <input type="password" name="password" required
+                    class="w-full p-3 rounded-lg bg-slate-900 border border-slate-700 text-white focus:outline-none focus:border-brand-primary focus:ring-1 focus:ring-brand-primary transition-all"
+                    placeholder="••••••••">
+            </div>
+            <button type="submit"
+                class="w-full btn-primary py-3 rounded-lg font-bold text-sm uppercase tracking-wide shadow-lg">
+                Login
+            </button>
+        </form>
+    </div>
+
+    <div class="text-center">
+        <p class="text-slate-500 mb-4 text-sm">Don't have a team yet?</p>
+        <div class="card p-6 rounded-xl border-dashed border-slate-700 bg-slate-900/30">
+            <h3 class="text-lg font-bold mb-4 text-white">Register New Team</h3>
+            <form method="POST" action="{{ url_for('login') }}" class="space-y-4">
+                <input type="hidden" name="register" value="true">
+                <input type="text" name="username" required
+                    class="w-full p-3 rounded bg-slate-800 border border-slate-700 text-white text-sm focus:border-brand-accent focus:outline-none"
+                    placeholder="Team Name">
+                <div class="grid grid-cols-2 gap-3">
+                    <input type="password" name="password" required
+                        class="w-full p-3 rounded bg-slate-800 border border-slate-700 text-white text-sm focus:border-brand-accent focus:outline-none"
+                        placeholder="Password">
+                    <input type="password" name="confirm_password" required
+                        class="w-full p-3 rounded bg-slate-800 border border-slate-700 text-white text-sm focus:border-brand-accent focus:outline-none"
+                        placeholder="Confirm">
+                </div>
+                <button type="submit"
+                    class="w-full bg-slate-700 hover:bg-slate-600 text-white font-semibold py-2 rounded transition-colors text-sm">
+                    Create Account
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

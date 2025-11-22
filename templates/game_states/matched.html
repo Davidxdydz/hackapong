@@ -1,0 +1,14 @@
+<div class="mb-6 text-6xl animate-bounce">⚔️</div>
+<h2 class="text-3xl font-bold text-white mb-2">Match Found!</h2>
+<p class="text-brand-primary font-medium mb-8">You are next in line.</p>
+
+{% if current_running_match %}
+<div class="bg-slate-800 p-6 rounded-xl border border-slate-700">
+    <p class="text-slate-400 text-sm uppercase tracking-widest mb-2">Current Match Ends In</p>
+    <!-- 12 mins from start time -->
+    <div class="text-5xl font-mono font-bold text-white" id="queue-timer"
+        data-deadline="{{ (current_running_match.start_time.timestamp() * 1000 + 12 * 60 * 1000) | int }}">--:--</div>
+</div>
+{% else %}
+<p class="text-slate-400">The table is free! Preparing your game...</p>
+{% endif %}

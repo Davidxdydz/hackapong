@@ -1,0 +1,128 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="max-w-4xl mx-auto w-full">
+    <div class="card p-10 rounded-2xl mb-10 text-center bg-gradient-to-b from-slate-800 to-slate-900">
+        <h1 class="text-5xl font-bold text-white mb-2">{{ team.name }}</h1>
+        <p class="text-slate-400 text-sm uppercase tracking-widest mb-8">Team Profile</p>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-2xl mx-auto">
+            <div class="p-4 rounded-xl bg-slate-900/50 border border-slate-700">
+                <div class="text-slate-500 text-xs uppercase font-bold mb-1">Elo Rating</div>
+                <div class="font-mono text-brand-accent text-3xl font-bold">{{ team.elo }}</div>
+            </div>
+            <div class="p-4 rounded-xl bg-slate-900/50 border border-slate-700">
+                <div class="text-slate-500 text-xs uppercase font-bold mb-1">Wins</div>
+                <div class="text-green-400 text-3xl font-bold">{{ team.wins }}</div>
+            </div>
+            <div class="p-4 rounded-xl bg-slate-900/50 border border-slate-700">
+                <div class="text-slate-500 text-xs uppercase font-bold mb-1">Losses</div>
+                <div class="text-red-400 text-3xl font-bold">{{ team.losses }}</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card p-6 rounded-2xl mb-10 bg-slate-900/50 border border-slate-700">
+        <h2 class="text-xl font-bold text-white mb-4 ml-2">Elo History</h2>
+        <div class="relative h-64 w-full">
+            <canvas id="eloChart"></canvas>
+        </div>
+    </div>
+
+    <h2 class="text-xl font-bold text-white mb-6 border-b border-slate-700 pb-2">Match History</h2>
+    <div class="space-y-3">
+        {% for match in matches %}
+        {% if match.status == 'COMPLETED' %}
+        <div
+            class="card p-4 rounded-lg flex flex-col md:flex-row justify-between items-center hover:bg-slate-800 transition-colors">
+            <div
+                class="flex-1 text-center md:text-right font-bold text-lg {{ 'text-green-400' if (match.score1 > match.score2 and match.team1_id == team.id) or (match.score2 > match.score1 and match.team2_id == team.id) else 'text-red-400' }}">
+                {{ 'WIN' if (match.score1 > match.score2 and match.team1_id == team.id) or (match.score2 > match.score1
+                and match.team2_id == team.id) else 'LOSS' }}
+            </div>
+            <div
+                class="mx-6 my-2 md:my-0 font-mono text-xl font-bold text-white bg-slate-900 px-4 py-1 rounded border border-slate-700">
+                {{ match.score1 }} - {{ match.score2 }}
+            </div>
+            <div class="flex-1 text-center md:text-left text-slate-400">
+                <span class="text-xs text-slate-600 uppercase mr-2">vs</span>
+                <span class="font-semibold text-white">{{ match.team2.name if match.team1_id == team.id else
+                    match.team1.name }}</span>
+            </div>
+            <div class="mt-2 md:mt-0 md:ml-6 text-xs text-slate-600 font-mono">
+                {{ match.end_time.strftime('%Y-%m-%d') }}
+            </div>
+        </div>
+        {% endif %}
+        {% else %}
+        <div class="text-center py-12 text-slate-500 bg-slate-900/50 rounded-xl border border-slate-800 border-dashed">
+            No matches played yet.
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    const ctx = document.getElementById('eloChart').getContext('2d');
+    const historyData = {{ elo_history | tojson }};
+
+    const labels = historyData.map(d => d.date);
+    const dataPoints = historyData.map(d => d.elo);
+
+    new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: 'Elo Rating',
+                data: dataPoints,
+                borderColor: '#3b82f6', // brand-primary
+                backgroundColor: 'rgba(59, 130, 246, 0.1)',
+                borderWidth: 3,
+                pointBackgroundColor: '#f59e0b', // brand-accent
+                pointRadius: 4,
+                pointHoverRadius: 6,
+                tension: 0.4,
+                fill: true
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    display: false
+                },
+                tooltip: {
+                    mode: 'index',
+                    intersect: false,
+                    backgroundColor: '#1e293b',
+                    titleColor: '#f8fafc',
+                    bodyColor: '#f8fafc',
+                    borderColor: '#334155',
+                    borderWidth: 1
+                }
+            },
+            scales: {
+                y: {
+                    grid: {
+                        color: '#334155'
+                    },
+                    ticks: {
+                        color: '#94a3b8'
+                    }
+                },
+                x: {
+                    grid: {
+                        display: false
+                    },
+                    ticks: {
+                        display: false // Hide dates to keep it clean
+                    }
+                }
+            }
+        }
+    });
+</script>
+{% endblock %}
