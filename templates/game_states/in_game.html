@@ -4,7 +4,7 @@
     <h2 class="text-xl font-bold text-red-500 uppercase tracking-widest">Match in Progress</h2>
 </div>
 
-<div class="text-9xl font-mono font-bold text-white mb-12 tracking-tighter" id="game-timer"
+<div class="text-6xl md:text-9xl font-mono font-bold text-white mb-12 tracking-tighter" id="game-timer"
     data-deadline="{{ (match.start_time.timestamp() * 1000 + 12 * 60 * 1000) | int }}">--:--</div>
 
 <button onclick="if(confirm('Are you sure the game is done?')) socket.emit('game_done')"
