@@ -1,5 +1,8 @@
-<h2 class="text-2xl font-bold text-brand-accent mb-2">Confirm Readiness</h2>
-<p class="text-slate-400 mb-8">Please confirm you are at the table.</p>
+<h2 class="text-2xl font-bold text-brand-accent mb-2">Get Ready</h2>
+<p class="text-slate-400 mb-8">
+    <strong>Dummy Beer Pong Rules:</strong> Each team must throw the ball from behind the table, aim for the opponent's
+    cups, and the first to clear all cups wins. No cheating!
+</p>
 
 <div class="text-7xl font-mono font-bold text-white mb-8 tracking-tight" id="ready-timer"
     data-deadline="{{ (match.scheduled_time.timestamp() * 1000 + 3 * 60 * 1000) | int }}">--:--</div>
@@ -20,5 +23,5 @@
 
 <button onclick="socket.emit('confirm_ready')"
     class="w-full max-w-xs bg-green-600 hover:bg-green-500 text-white font-bold py-4 rounded-xl text-lg shadow-lg transition-all">
-    I am Ready
+    We are ready
 </button>
