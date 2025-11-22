@@ -179,6 +179,8 @@ def handle_find_match():
         return
     
     team = Team.query.get(session['team_id'])
+    if not team:
+        return
     if team.state == 'NOT_ACTIVE':
         team.state = 'SEARCHING'
         db.session.commit()
@@ -191,6 +193,8 @@ def handle_cancel_search():
         return
     
     team = Team.query.get(session['team_id'])
+    if not team:
+        return
     if team.state == 'SEARCHING':
         team.state = 'NOT_ACTIVE'
         db.session.commit()
@@ -202,6 +206,8 @@ def handle_confirm_ready():
         return
         
     team = Team.query.get(session['team_id'])
+    if not team:
+        return
     if team.state == 'CONFIRM_READY':
         team.state = 'READY'
         db.session.commit()
@@ -214,6 +220,8 @@ def handle_game_done():
         return
     
     team = Team.query.get(session['team_id'])
+    if not team:
+        return
     if team.state == 'IN_GAME':
         team.state = 'DONE'
         db.session.commit()
@@ -226,6 +234,8 @@ def handle_submit_score(data):
         return
     
     team = Team.query.get(session['team_id'])
+    if not team:
+        return
     if team.state in ['DONE', 'SUBMIT']: # Allow submit from DONE if other team is slow, or SUBMIT
         score1 = int(data.get('score1'))
         score2 = int(data.get('score2'))

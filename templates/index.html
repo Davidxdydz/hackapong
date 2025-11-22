@@ -66,6 +66,13 @@
                         </div>
                     </td>
                 </tr>
+                {% else %}
+                <tr>
+                    <td colspan="5" class="py-12 text-center text-slate-500">
+                        No teams registered yet. <a href="/login" class="text-brand-primary hover:underline">Register
+                            now!</a>
+                    </td>
+                </tr>
                 {% endfor %}
             </tbody>
         </table>
