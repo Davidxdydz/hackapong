@@ -27,7 +27,8 @@
                 <div class="text-2xl md:text-3xl font-bold text-white text-center">{{ current_match.team2.name }}</div>
             </div>
             <div class="mt-6 text-center text-slate-500 font-mono text-sm">
-                Started at {{ current_match.start_time.strftime('%H:%M') }}
+                Started at <span class="local-time"
+                    data-timestamp="{{ current_match.start_time.timestamp() * 1000 }}">--:--</span>
             </div>
         </div>
     </div>
@@ -48,7 +49,7 @@
                 {{ match.team2.name }}</div>
             <div
                 class="mt-4 md:mt-0 md:ml-12 text-brand-primary font-mono font-bold bg-blue-900/20 px-3 py-1 rounded border border-blue-900/50">
-                {{ match.scheduled_time.strftime('%H:%M') }}
+                <span class="local-time" data-timestamp="{{ match.scheduled_time.timestamp() * 1000 }}">--:--</span>
             </div>
         </div>
         {% endif %}

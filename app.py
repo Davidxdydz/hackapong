@@ -361,8 +361,8 @@ def check_score_submission(match_id):
             team2.current_match_id = None
             db.session.commit()
 
-            emit('state_change', {'state': 'COMPLETED', 'match_id': match.id}, room=f"team_{team1.id}")
-            emit('state_change', {'state': 'COMPLETED', 'match_id': match.id}, room=f"team_{team2.id}")
+            emit('state_change', {'state': 'COMPLETED', 'match_id': match.id, 'result': 'WIN', 'score': f"{match.score1}-{match.score2}" if match.score1 > match.score2 else f"{match.score2}-{match.score1}"}, room=f"team_{team1.id if match.score1 > match.score2 else team2.id}")
+            emit('state_change', {'state': 'COMPLETED', 'match_id': match.id, 'result': 'LOSE', 'score': f"{match.score1}-{match.score2}" if match.score1 > match.score2 else f"{match.score2}-{match.score1}"}, room=f"team_{team2.id if match.score1 > match.score2 else team1.id}")
 
             # Clear pending scores for this match
             del app.pending_scores[team1_submitted_key]

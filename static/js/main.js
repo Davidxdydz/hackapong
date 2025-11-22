@@ -9,6 +9,12 @@ socket.on('state_change', (data) => {
     if (data.error) {
         alert(data.error);
     }
+
+    if (data.result && data.score) {
+        window.location.href = `/?result=${data.result}&score=${data.score}`;
+        return;
+    }
+
     // Reload the page to fetch the new state-dependent UI
     // In a full SPA we would update the DOM, but for this "dumb app" approach, reload is fine/requested
     window.location.reload();
@@ -59,4 +65,16 @@ document.addEventListener('DOMContentLoaded', () => {
             mobileMenu.classList.toggle('hidden');
         });
     }
+
+    // Format local times
+    const timeElements = document.querySelectorAll('.local-time');
+    timeElements.forEach(el => {
+        const timestamp = parseInt(el.getAttribute('data-timestamp'));
+        if (!isNaN(timestamp)) {
+            const date = new Date(timestamp);
+            const hours = date.getHours().toString().padStart(2, '0');
+            const minutes = date.getMinutes().toString().padStart(2, '0');
+            el.textContent = `${hours}:${minutes}`;
+        }
+    });
 });
