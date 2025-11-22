@@ -19,11 +19,12 @@
             <h2 class="text-sm font-bold text-red-500 uppercase tracking-widest">Live Now</h2>
         </div>
 
-        <div class="card p-8 rounded-xl border-l-4 border-l-red-500 bg-gradient-to-r from-slate-800 to-slate-900">
-            <div class="flex flex-col md:flex-row justify-center items-center gap-8 md:gap-16">
-                <div class="text-3xl font-bold text-white">{{ current_match.team1.name }}</div>
+        <div
+            class="card p-6 md:p-8 rounded-xl border-l-4 border-l-red-500 bg-gradient-to-r from-slate-800 to-slate-900">
+            <div class="flex flex-col md:flex-row justify-center items-center gap-4 md:gap-16">
+                <div class="text-2xl md:text-3xl font-bold text-white text-center">{{ current_match.team1.name }}</div>
                 <div class="text-xl font-bold text-slate-600 italic">VS</div>
-                <div class="text-3xl font-bold text-white">{{ current_match.team2.name }}</div>
+                <div class="text-2xl md:text-3xl font-bold text-white text-center">{{ current_match.team2.name }}</div>
             </div>
             <div class="mt-6 text-center text-slate-500 font-mono text-sm">
                 Started at {{ current_match.start_time.strftime('%H:%M') }}
@@ -37,7 +38,7 @@
         {% for match in matches %}
         {% if match.status == 'SCHEDULED' %}
         <div
-            class="card p-5 rounded-lg flex flex-col md:flex-row justify-between items-center hover:border-slate-500 transition-colors group {{ 'border-brand-primary bg-blue-900/10' if session.get('team_id') and (match.team1_id == session['team_id'] or match.team2_id == session['team_id']) else '' }}">
+            class="card p-4 md:p-5 rounded-lg flex flex-col md:flex-row justify-between items-center hover:border-slate-500 transition-colors group {{ 'border-brand-primary bg-blue-900/10' if session.get('team_id') and (match.team1_id == session['team_id'] or match.team2_id == session['team_id']) else '' }}">
             <div
                 class="flex-1 text-center md:text-right font-semibold text-lg {{ 'text-brand-primary font-bold' if session.get('team_id') and match.team1_id == session['team_id'] else 'text-slate-300 group-hover:text-white' }} transition-colors">
                 {{ match.team1.name }}</div>

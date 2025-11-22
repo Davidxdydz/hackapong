@@ -402,4 +402,4 @@ def update_elo(team1, team2, score1, score2):
     team2.elo = int(team2.elo + k * (s2 - e2))
 
 if __name__ == '__main__':
-    socketio.run(app, debug=True)
+    socketio.run(app, debug=True, port = 443, host='0.0.0.0', certfile='/etc/letsencrypt/live/hackapong.ddns.net/cert.pem', keyfile='/etc/letsencrypt/live/hackapong.ddns.net/privkey.pem')
