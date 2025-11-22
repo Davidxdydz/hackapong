@@ -2,10 +2,11 @@
     class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black/90 backdrop-blur-sm">
     <div class="text-center animate-bounce">
         <div id="result-emoji" class="text-6xl md:text-9xl mb-4"></div>
-        <h1 id="result-title" class="text-4xl md:text-6xl font-black text-white mb-2 uppercase tracking-tighter"></h1>
+        <h1 id="result-title" class="text-4xl md:text-6xl font-black gradient-text mb-2 uppercase tracking-tighter">
+        </h1>
         <div id="result-score" class="text-2xl md:text-4xl font-mono font-bold text-slate-400"></div>
         <button onclick="closeResult()"
-            class="mt-12 btn-primary px-8 py-3 rounded-full font-bold uppercase tracking-widest">
+            class="mt-12 px-8 py-3 rounded-full bg-slate-700 font-bold uppercase tracking-widest hover:bg-slate-600 transition transform hover:scale-105">
             Continue
         </button>
     </div>
@@ -23,11 +24,9 @@
 
         if (params.get('result') === 'WIN') {
             title.textContent = 'VICTORY!';
-            title.classList.add('text-green-500');
             emoji.textContent = '🏆';
         } else {
             title.textContent = 'DEFEAT';
-            title.classList.add('text-red-500');
             emoji.textContent = '💀';
         }
         score.textContent = params.get('score');
@@ -41,13 +40,12 @@
 </script>
 
 <div class="mb-8">
-    <div class="inline-block p-4 rounded-full bg-slate-800 mb-4">
+    <div class="inline-block p-4 rounded-full bg-slate-800/50 mb-4">
         <span class="text-4xl">🏓</span>
     </div>
     <h2 class="text-3xl font-bold text-white mb-2">Ready for a Match?</h2>
     <p class="text-slate-400">Join the queue to find an opponent.</p>
 </div>
-<button onclick="socket.emit('find_match')"
-    class="btn-primary px-10 py-4 rounded-full text-lg font-bold shadow-lg hover:shadow-blue-500/20">
+<button onclick="socket.emit('find_match')" class="px-10 py-4 rounded-full text-lg font-bold shadow-lg btn-primary">
     Find Match
 </button>

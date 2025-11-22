@@ -1,20 +1,26 @@
-<h2 class="text-2xl font-bold text-brand-accent mb-2">Get Ready</h2>
-<p class="text-slate-400 mb-8">
-    <strong>Dummy Beer Pong Rules:</strong> Each team must throw the ball from behind the table, aim for the opponent's
-    cups, and the first to clear all cups wins. No cheating!
-</p>
+<div class="glass p-6 rounded-xl text-left space-y-4 mb-8 max-w-lg mx-auto">
+    <h3 class="font-bold text-lg text-center gradient-text">Quick Rules</h3>
+    <ul class="list-disc list-inside text-slate-300 space-y-2 text-sm">
+        <li>Elbows must stay behind the edge of the table.</li>
+        <li>Two reracks allowed per game.</li>
+        <li>Bounce shots count as two cups but can be swatted.</li>
+        <li>Heating up: 2 makes in a row = balls back.</li>
+        <li>On fire: 3 makes in a row = shoot until you miss.</li>
+        <li>Island: Once per game, call a specific cup. If hit, count as 2.</li>
+    </ul>
+</div>
 
-<div class="text-5xl md:text-7xl font-mono font-bold text-white mb-8 tracking-tight" id="ready-timer"
+<div class="text-5xl md:text-7xl font-mono font-bold gradient-text mb-8 tracking-tight" id="ready-timer"
     data-deadline="{{ (match.scheduled_time.timestamp() * 1000 + 3 * 60 * 1000) | int }}">--:--</div>
 
-<div class="flex justify-center gap-8 mb-8 w-full max-w-md">
-    <div class="flex-1 bg-slate-800 p-4 rounded-lg border border-slate-700 opacity-50">
-        <div class="text-xs text-slate-400 uppercase font-bold mb-1">You</div>
-        <div class="text-white font-bold">Not Ready</div>
+<div class="grid grid-cols-2 gap-4 mb-8 w-full max-w-md mx-auto">
+    <div class="text-center p-4 rounded-lg glass opacity-50">
+        <div class="text-xs uppercase text-slate-400 mb-1">You</div>
+        <div class="font-bold text-white">Not Ready</div>
     </div>
     <div
-        class="flex-1 bg-slate-800 p-4 rounded-lg border {{ 'border-green-500/50 bg-green-900/20' if opponent.state == 'READY' else 'border-slate-700' }}">
-        <div class="text-xs text-slate-400 uppercase font-bold mb-1">Opponent</div>
+        class="text-center p-4 rounded-lg glass {{ 'border-green-500/50 bg-green-900/20' if opponent.state == 'READY' else '' }}">
+        <div class="text-xs uppercase text-slate-400 mb-1">Opponent</div>
         <div class="{{ 'text-green-400' if opponent.state == 'READY' else 'text-slate-500' }} font-bold">
             {{ 'READY' if opponent.state == 'READY' else 'WAITING' }}
         </div>
@@ -22,6 +28,6 @@
 </div>
 
 <button onclick="socket.emit('confirm_ready')"
-    class="w-full max-w-xs bg-green-600 hover:bg-green-500 text-white font-bold py-4 rounded-xl text-lg shadow-lg transition-all">
+    class="w-full max-w-xs btn-primary py-4 rounded-xl text-lg font-bold shadow-lg">
     We are ready
 </button>

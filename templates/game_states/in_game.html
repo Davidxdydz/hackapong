@@ -1,13 +1,17 @@
-<div class="absolute top-0 left-0 w-full h-1 bg-red-500"></div>
+<div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-pink-500 to-violet-500 animate-pulse"></div>
 <div class="flex items-center justify-center gap-4 mb-8">
-    <span class="w-3 h-3 bg-red-500 rounded-full animate-pulse"></span>
-    <h2 class="text-xl font-bold text-red-500 uppercase tracking-widest">Match in Progress</h2>
+    <span class="w-3 h-3 bg-pink-500 rounded-full animate-ping"></span>
+    <h2 class="text-xl font-bold text-pink-500 uppercase tracking-widest">Match in Progress</h2>
 </div>
 
-<div class="text-6xl md:text-9xl font-mono font-bold text-white mb-12 tracking-tighter" id="game-timer"
-    data-deadline="{{ (match.start_time.timestamp() * 1000 + 12 * 60 * 1000) | int }}">--:--</div>
+<div class="text-center mb-12">
+    <div class="text-sm text-slate-400 uppercase tracking-widest mb-2">Time Remaining</div>
+    <div class="text-6xl md:text-9xl font-mono font-bold gradient-text tracking-tighter" id="game-timer"
+        data-deadline="{{ (match.start_time.timestamp() * 1000 + 12 * 60 * 1000) | int }}">--:--</div>
+</div>
 
 <button onclick="if(confirm('Are you sure the game is done?')) socket.emit('game_done')"
-    class="border border-slate-600 hover:bg-slate-800 text-slate-300 font-semibold py-3 px-6 rounded-lg transition-all text-sm">
-    Finish Game Early
+    class="w-full max-w-md mx-auto block py-6 rounded-xl bg-gradient-to-r from-pink-600 to-violet-600 font-bold text-2xl shadow-lg hover:scale-105 transition transform active:scale-95">
+    DONE!
 </button>
+<div class="text-center text-xs text-slate-500 mt-4">Click when your game is finished</div>
